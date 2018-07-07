@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "654383478135",
+    "firebase_url": "https://playstationbrad-e498e.firebaseio.com",
+    "project_id": "playstationbrad-e498e",
+    "storage_bucket": "playstationbrad-e498e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654383478135:android:90392e7abe1fc19d",
+        "android_client_info": {
+          "package_name": "com.atakishiyev.playstation__brat_"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654383478135-ehe99d1jlvm4egsrkh7r38h0vjgqbaja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.atakishiyev.playstation__brat_",
+            "certificate_hash": "6cf798578af41072b52724bcde679a2214359217"
+          }
+        },
+        {
+          "client_id": "654383478135-9n5tposaavbn0198jj89v4h87ph3dhsr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKWpfTkHZzWY6KEPD-UgeDE2d4F1MbUmQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654383478135-9n5tposaavbn0198jj89v4h87ph3dhsr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
