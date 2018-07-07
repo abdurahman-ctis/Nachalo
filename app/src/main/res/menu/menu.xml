@@ -2,23 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_more"
-        android:icon="@drawable/ic_more_vert_black_24dp"
-        android:title=""
-        app:showAsAction="always">
-    <menu>
-    <item
         android:id="@+id/action_add_contact"
-        android:title="Add contact"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_settings"
-        android:title="Settings"
-        app:showAsAction="ifRoom" />
+        android:title="Add contact" />
     <item
         android:id="@+id/action_about_us"
-        android:title="About us"
-        app:showAsAction="ifRoom" />
-    </menu>
-    </item>
+        android:title="About us"/>
 </menu>
