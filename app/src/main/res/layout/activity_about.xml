@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".AboutActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:fontFamily="serif-monospace"
+        android:text="PS, Brat?"
+        android:textColor="@color/colorWhite"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="209dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="109dp"
+        android:fontFamily="serif"
+        android:text="Bu sadəcə bekarçılıq və side-project azlığından yaranmış bir proqramdır. Zəhmət deyilsə Play Store'da proqramımı qiymətləndirin. İnanılmaz bir möcüzə nədəniylə mənimlə əlaqə saxlamaq və ya layihə üzərində işləmək istəsəniz, kuyoku4ever@gmail.com poçtu ilə əlaqə saxlayın. Hə, bir də reklamları klikləməyi unutmayın. Money hamıya lazımdır."
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="22sp" />
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/test_ad">
+    </com.google.android.gms.ads.AdView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="69dp"
+        android:text="Qİymətləndİr" />
+</RelativeLayout>

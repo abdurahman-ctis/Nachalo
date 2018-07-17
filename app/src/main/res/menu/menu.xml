@@ -2,9 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_add_contact"
-        android:title="Add contact" />
+        android:id="@+id/action_add_place"
+        android:title="Yer əlavə et" />
     <item
-        android:id="@+id/action_about_us"
-        android:title="About us"/>
+        android:id="@+id/action_about"
+        android:title="Haqqımda"/>
+    <item
+        android:id="@+id/logout"
+        android:title="Hesabdan çıx"/>
 </menu>

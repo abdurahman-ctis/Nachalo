@@ -1,4 +1,9 @@
 <resources>
-    <string name="app_name">Playstation--Brat-</string>
+    <string name="app_name">PS, brat?</string>
     <string name="title_activity_maps">Bax gör neynəyirsən...</string>
+    <string name="test_ad">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="map_ad">ca-app-pub-6025257147424316/3634503195</string>
+    <string name="about_ad">ca-app-pub-6025257147424316/1624197773</string>
+    <string name="addplace_ad">ca-app-pub-6025257147424316/9531032982</string>
+    <string name="newreview_ad">ca-app-pub-6025257147424316/4179515833</string>
 </resources>
