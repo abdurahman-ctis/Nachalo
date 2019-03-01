@@ -1,5 +1,6 @@
 package com.atakishiyev.playstation__brat_;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,14 +28,22 @@ public class ReviewActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private String id;
     private Integer size, sum, cnt;
+    private ImageButton imageButton;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+        mProgress = new ProgressDialog(this);
+        mProgress.setTitle("Gözləyin...");
+        mProgress.setMessage("Dvijenyalar həyata keçirilir...");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
         bar = findViewById(R.id.ratingBar);
         scale = findViewById(R.id.tvRatingScale);
         button = findViewById(R.id.btnSubmitReview);
+        imageButton = findViewById(R.id.imageButton);
         review = findViewById(R.id.reviewText);
         auth = FirebaseAuth.getInstance();
         id = getIntent().getStringExtra("id");
@@ -47,16 +57,26 @@ public class ReviewActivity extends AppCompatActivity {
             }
         };
 
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ReviewActivity.this, MapsActivity.class));
+                finish();
+            }
+        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(review.getText().toString().length()>0 && size>0){
+                    mProgress.show();
                     FirebaseDatabase.getInstance().getReference().child("Places").child(id).child("reviews")
-                            .child(size.toString()).setValue(new PSClub.Review(auth.getCurrentUser().getDisplayName(), review.getText().toString()));
+                            .child(auth.getCurrentUser().getDisplayName()).setValue(new PSClub.revData(bar.getRating(), review.getText().toString()));
                     FirebaseDatabase.getInstance().getReference().child("Places").child(id).child("rateSum").setValue(sum + bar.getRating());
                     FirebaseDatabase.getInstance().getReference().child("Places").child(id).child("rateCnt").setValue(cnt+1).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            mProgress.dismiss();
                             if (task.isSuccessful()) {
                                 startActivity(new Intent(ReviewActivity.this, MapsActivity.class));
                                 finish();

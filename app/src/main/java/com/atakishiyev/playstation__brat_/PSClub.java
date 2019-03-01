@@ -1,28 +1,32 @@
 package com.atakishiyev.playstation__brat_;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PSClub {
-    static class Review {
-        private String uname, review;
+    static class revData implements java.io.Serializable {
+        Float rate;
+        String reviewContent;
 
-        Review(String uname, String review) {
-            this.uname = uname;
-            this.review = review;
+        public revData() {
+        }
+
+        revData(Float rate, String reviewContent) {
+            this.rate = rate;
+            this.reviewContent = reviewContent;
         }
     }
 
-    private Double lat, lng, price;
+    private Double lat, lng;
     private String name;
-    private ArrayList<Review> reviews;
-    private ArrayList<String> consoles;
+    private HashMap<String, revData> reviews;
+    private HashMap<String, Double> consoles;
     private Integer rateSum, rateCnt;
 
 
-    public PSClub(Double lat, Double lng, Double price, String name, ArrayList<Review> reviews, ArrayList<String> consoles, Integer rateSum, Integer rateCnt) {
+    PSClub(Double lat, Double lng, String name, HashMap<String, revData> reviews, HashMap<String, Double> consoles, Integer rateSum, Integer rateCnt) {
         this.lat = lat;
         this.lng = lng;
-        this.price = price;
         this.name = name;
         this.reviews = reviews;
         this.consoles = consoles;
@@ -30,20 +34,12 @@ public class PSClub {
         this.rateCnt = rateCnt;
     }
 
-    public ArrayList<Review> getReviews() {
+    public HashMap<String, revData> getReviews() {
         return reviews;
     }
 
-    public ArrayList<String> getConsoles() {
+    public HashMap<String, Double> getConsoles() {
         return consoles;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     public Integer getRateSum() {
@@ -91,6 +87,6 @@ public class PSClub {
     }
 
     public Double rating() {
-        return Double.valueOf(this.rateSum/rateCnt);
+        return (this.rateSum + 0.0d)/rateCnt;
     }
 }

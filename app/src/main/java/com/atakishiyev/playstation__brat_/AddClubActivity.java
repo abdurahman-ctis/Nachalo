@@ -1,5 +1,6 @@
 package com.atakishiyev.playstation__brat_;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
@@ -24,22 +26,36 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AddClubActivity extends AppCompatActivity {
 
     private RatingBar bar;
     private TextView scale;
-    private EditText revText, nameText, priceText;
+    private EditText revText, nameText;
     private Button button;
-    private ArrayList<CheckBox> checkBoxes;
-    private ArrayList<String> consoles;
-    private ArrayList<PSClub.Review> reviews;
+    private HashMap<CheckBox, EditText> checkBoxes;
+    private HashMap<String, Double> consoles;
+    private HashMap<String, PSClub.revData> reviews;
     private AdView adView;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private Intent intent;
-    private Double lat, lng, price;
+    private Double lat, lng;
     private ImageButton imageButton;
+    private ProgressDialog mProgress;
+    private boolean inputReady, isAnyChecked;
+
+    public void checkCheckboxes(){
+        inputReady = true;
+        for ( CheckBox key : checkBoxes.keySet() ) {
+            if(key.isChecked()){
+                if(checkBoxes.get(key).getText().toString().length()==0)
+                    inputReady = false;
+                isAnyChecked = true;
+            }
+        }
+    }
 
     public String clubID(LatLng latLng){
         String s = Double.toString(latLng.latitude)+Double.toString(latLng.longitude);
@@ -50,6 +66,13 @@ public class AddClubActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_club);
+        inputReady = false;
+        isAnyChecked = false;
+        mProgress = new ProgressDialog(this);
+        mProgress.setTitle("Gözləyin...");
+        mProgress.setMessage("Dvijenyalar həyata keçirilir...");
+        mProgress.setCancelable(false);
+        mProgress.setIndeterminate(true);
         auth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -71,42 +94,64 @@ public class AddClubActivity extends AppCompatActivity {
         imageButton = findViewById(R.id.imageButton);
         revText = findViewById(R.id.reviewText);
         nameText = findViewById(R.id.nameText);
-        priceText = findViewById(R.id.priceEditText);
-        checkBoxes = new ArrayList<>();
-        checkBoxes.add((CheckBox)findViewById(R.id.ps2));
-        checkBoxes.add((CheckBox)findViewById(R.id.ps3));
-        checkBoxes.add((CheckBox)findViewById(R.id.ps4));
-        checkBoxes.add((CheckBox)findViewById(R.id.pc));
-        reviews = new ArrayList<>();
-        consoles = new ArrayList<>();
+        checkBoxes = new HashMap<>();
+        checkBoxes.put((CheckBox)findViewById(R.id.ps1), (EditText)findViewById(R.id.ps1Price));
+        checkBoxes.put((CheckBox)findViewById(R.id.ps2), (EditText)findViewById(R.id.ps2Price));
+        checkBoxes.put((CheckBox)findViewById(R.id.ps3), (EditText)findViewById(R.id.ps3Price));
+        checkBoxes.put((CheckBox)findViewById(R.id.ps4), (EditText)findViewById(R.id.ps4Price));
+        checkBoxes.put((CheckBox)findViewById(R.id.pc), (EditText)findViewById(R.id.pcPrice));
+
+        for (final CheckBox s : checkBoxes.keySet()) {
+            s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(b)
+                        ((View)checkBoxes.get(s).getParent()).setVisibility(View.VISIBLE);
+                    else{
+                        ((View)checkBoxes.get(s).getParent()).setVisibility(View.GONE);
+                        checkBoxes.get(s).setText("");
+                    }
+                }
+            });
+        }
+
+        reviews = new HashMap<>();
+        consoles = new HashMap<>();
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(AddClubActivity.this, MapsActivity.class));
+                finish();
             }
         });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                consoles.clear();
-                for(int i = 0; i<4; i++)
-                    if(checkBoxes.get(i).isChecked())
-                        consoles.add(checkBoxes.get(i).getText().toString());
-                if(!consoles.isEmpty() && revText.length()>0 && nameText.length()>0 && priceText.length()>0) {
-                    reviews.add(new PSClub.Review(auth.getCurrentUser().getDisplayName(), revText.getText().toString()));
-                    price = Double.parseDouble(priceText.getText().toString());
-                    PSClub club = new PSClub(lat, lng, price, nameText.getText().toString(), reviews, consoles, (int)bar.getRating(), 1);
+                checkCheckboxes();
+                if(revText.length()>0 && nameText.length()>0 && inputReady && isAnyChecked) {
+                    mProgress.show();
+                    for (HashMap.Entry<CheckBox, EditText> entry : checkBoxes.entrySet())
+                    {
+                        String s = entry.getValue().getText().toString();
+                        if(!s.contains("."))
+                            s+=".0";
+                        consoles.put(entry.getKey().getText().toString(), Double.parseDouble(s));
+                    }
+                    reviews.put(auth.getCurrentUser().getDisplayName(), new PSClub.revData(bar.getRating(), revText.getText().toString()));
+                    PSClub club = new PSClub(lat, lng, nameText.getText().toString(), reviews, consoles, (int)bar.getRating(), 1);
                     FirebaseDatabase.getInstance().getReference().child("Places")
                             .child(clubID(new LatLng(lat, lng))).setValue(club).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            mProgress.dismiss();
                             if(!task.isSuccessful())
                                 Log.d("pecatik", "ERROR!");
                             else{
                                 Log.d("pecatik", "SUCCESS!");
                                 startActivity(new Intent(AddClubActivity.this, MapsActivity.class));
+                                finish();
                             }
                         }
                     });

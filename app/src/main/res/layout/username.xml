@@ -7,7 +7,7 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adınız(min. 4 simvol):"
+        android:text="Ad:"
         android:fontFamily="monospace"
         android:textSize="28sp"
         android:textColor="@color/colorWhite"/>
@@ -24,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit"
-        android:background="@color/colorRed"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorWhite"
         android:text="Təsdİqlə"/>
 
 </RelativeLayout>

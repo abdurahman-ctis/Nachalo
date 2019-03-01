@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp"
         android:fontFamily="serif-monospace"
-        android:text="PS, Brat?"
+        android:text="Naçalo"
         android:textColor="@color/colorWhite"
         android:textSize="42sp"
         android:textStyle="bold"
@@ -46,10 +46,12 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="69dp"
+        android:background="@drawable/button_red"
+        android:textColor="@color/colorWhite"
         android:text="Qİymətləndİr" />
 </RelativeLayout>

@@ -5,6 +5,9 @@
         android:id="@+id/action_add_place"
         android:title="Yer əlavə et" />
     <item
+        android:id="@+id/mapType"
+        android:title="Xəritə tipini dəyiş"/>
+    <item
         android:id="@+id/action_about"
         android:title="Haqqımda"/>
     <item
